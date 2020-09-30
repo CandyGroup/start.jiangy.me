@@ -22,6 +22,7 @@ server:
   error:
     include-message: always
   forward-headers-strategy: native
+  max-http-header-size: 64KB
 
 spring:
   jackson:
@@ -214,6 +215,12 @@ initializr:
           links:
             - rel: reference
               href: https://docs.spring.io/spring-modulith/reference/
+        - name: FastJSON
+          id: fastjson
+          description: Fastjson is a JSON processor (JSON parser + JSON generator) written in Java.
+          groupId: com.alibaba
+          artifactId: fastjson
+          version: 1.2.83
     - name: Web
       content:
         - name: Spring Web
@@ -525,6 +532,18 @@ initializr:
               description: MyBatis Quick Start
             - rel: reference
               href: https://mybatis.org/spring-boot-starter/mybatis-spring-boot-autoconfigure/
+        - name: MyBatis-Plus
+          id: mybatis-plus
+          description: An enhanced toolkit of Mybatis to simplify development.
+          groupId: com.baomidou
+          artifactId: mybatis-plus-boot-starter
+          version: 3.5.9
+          links:
+            - rel: guide
+              href: https://mybatis.plus/guide/
+              description: MyBatis Plus Quick Start
+            - rel: reference
+              href: https://mybatis.plus/config/
         - name: Liquibase Migration
           id: liquibase
           description: Liquibase database migration and source control library.
@@ -614,7 +633,13 @@ initializr:
           description: A JDBC and R2DBC driver that allows Java programs to connect to a PostgreSQL database using standard, database independent Java code.
           groupId: org.postgresql
           artifactId: postgresql
-          scope: runtime
+          starter: false
+        - name: ClickHouse Driver
+          id: clickhouse
+          description: A JDBC driver that allows Java programs to connect to a ClickHouse database using standard, database independent Java code.
+          groupId: ru.yandex.clickhouse
+          artifactId: clickhouse-jdbc
+          version: 0.3.2-patch11
           starter: false
     - name: NoSQL
       content:
@@ -872,6 +897,12 @@ initializr:
           links:
             - rel: reference
               href: https://docs.spring.io/spring-boot/{bootVersion}/reference/io/quartz.html
+        - name: XXL JOB
+          id: xxl-job
+          description: A distributed task scheduling framework.
+          groupId: com.xuxueli
+          artifactId: xxl-job-core
+          version: 2.4.2
         - name: Spring Cache Abstraction
           id: cache
           description: Provides cache-related operations, such as the ability to update the content of the cache, but does not provide the actual data store.
@@ -1693,7 +1724,7 @@ initializr:
           id: spring-ai-markdown-document-reader
           group-id: org.springframework.ai
           artifact-id: spring-ai-markdown-document-reader
-          description: Spring AI Markdown document reader. It allows to load Markdown documents, converting them into a list of Spring AI Document objects.          
+          description: Spring AI Markdown document reader. It allows to load Markdown documents, converting them into a list of Spring AI Document objects.
           bom: spring-ai
           starter: false
           links:
@@ -1740,7 +1771,7 @@ initializr:
         build: gradle
         dialect: groovy
         format: project
-      default: true
+      default: false
       action: /starter.zip
     - name: Gradle - Kotlin
       id: gradle-project-kotlin
@@ -1765,7 +1796,7 @@ initializr:
       tags:
         build: maven
         format: project
-      default: false
+      default: true
       action: /starter.zip
     - name: Maven POM
       id: maven-build
@@ -1786,9 +1817,12 @@ initializr:
     - id: 23
       default: false
     - id: 21
-      default: false
-    - id: 17
       default: true
+    - id: 17
+      default: false
+    - id: 1.8
+      name: 8
+      default: false
   languages:
     - name: Java
       id: java
