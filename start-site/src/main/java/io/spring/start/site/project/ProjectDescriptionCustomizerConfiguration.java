@@ -18,6 +18,12 @@ package io.spring.start.site.project;
 
 import io.spring.initializr.generator.project.ProjectDescriptionCustomizer;
 import io.spring.start.site.project.dependency.springcloud.SpringCloudResilience4JProjectDescriptionCustomizer;
+import io.spring.initializr.metadata.InitializrMetadataProvider;
+import io.spring.initializr.web.project.ProjectGenerationInvoker;
+import io.spring.start.site.extension.ddl.DDLProjectGenerationController;
+import io.spring.start.site.extension.ddl.DDLProjectRequest;
+import io.spring.start.site.extension.ddl.DDLProjectRequestToDescriptionConverter;
+import org.springframework.context.ApplicationContext;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -30,14 +36,23 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class ProjectDescriptionCustomizerConfiguration {
 
-	@Bean
-	public JavaVersionProjectDescriptionCustomizer javaVersionProjectDescriptionCustomizer() {
-		return new JavaVersionProjectDescriptionCustomizer();
-	}
+    @Bean
+    public JavaVersionProjectDescriptionCustomizer javaVersionProjectDescriptionCustomizer() {
+        return new JavaVersionProjectDescriptionCustomizer();
+    }
 
-	@Bean
+    @Bean
 	public SpringCloudResilience4JProjectDescriptionCustomizer springCloudResilience4JProjectDescriptionCustomizer() {
 		return new SpringCloudResilience4JProjectDescriptionCustomizer();
 	}
 
+    @Bean
+    public DDLProjectGenerationController customProjectGenerationController(InitializrMetadataProvider metadataProvider,
+                                                                            ApplicationContext applicationContext) {
+        ProjectGenerationInvoker<DDLProjectRequest> projectGenerationInvoker = new ProjectGenerationInvoker<>(
+                applicationContext, new DDLProjectRequestToDescriptionConverter());
+        return new DDLProjectGenerationController(metadataProvider, projectGenerationInvoker);
+    }
+
 }
+

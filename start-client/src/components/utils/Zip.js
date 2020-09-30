@@ -2,6 +2,8 @@ import get from 'lodash/get'
 
 const FILE_EXTENSION = {
   js: 'javascript',
+  json: 'javascript',
+  markdown: 'markdown',
   md: 'markdown',
   kt: 'kotlin',
   kts: 'kotlin',
@@ -14,12 +16,13 @@ const FILE_EXTENSION = {
   groovy: 'groovy',
   yaml: 'yaml',
   yml: 'yaml',
+  config: 'txt',
+  editorconfig: 'txt',
+  Dockerfile: 'txt',
+  dockerignore: 'txt',
 }
 
 export const getLanguage = file => {
-  if (!file.includes(`.`)) {
-    return null
-  }
   const extension = file.split(`.`).pop()
   return get(FILE_EXTENSION, extension, null)
 }
